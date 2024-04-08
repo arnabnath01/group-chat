@@ -8,7 +8,7 @@ import { Router } from 'next/router';
 import { useRouter } from 'next/navigation';
 
 const ChatHeader = ({ user }: { user: User | undefined }) => {
-  // const ChatHeader = ( ) => {
+
 
   const router = useRouter();
 
