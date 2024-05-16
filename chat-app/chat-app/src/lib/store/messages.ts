@@ -1,5 +1,5 @@
 
-import { Message } from "postcss";
+
 import { create } from "zustand";
 
 //first we r defining how the message should look like
@@ -20,11 +20,17 @@ export type Imessage = {
 
 // then here we are sying that the messages should be a array of Imessage
 interface messageState {
-  messages: Imessage[]
+  messages: Imessage[];
+  addMessage: (message:Imessage) => void;
 }
 
 export const useMessage = create<messageState>()((set) => ({
     messages: [],
+    addMessage:(message)=>{
+        set((state)=>({
+            messages:[...state.messages,message]
+        }))
+    }
 }));
 
 

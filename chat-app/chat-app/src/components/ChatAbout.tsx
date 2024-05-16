@@ -2,7 +2,7 @@ import React from 'react'
 
 const ChatAbout = () => {
   return (
-    <div>ChatAbout</div>
+    <div className='text-center p-4'>ChatAbout</div>
   )
 }
 

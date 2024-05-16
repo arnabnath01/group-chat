@@ -7,13 +7,17 @@ import { User } from '@supabase/supabase-js';
 import { Router } from 'next/router';
 import { useRouter } from 'next/navigation';
 
+// const ChatHeader = ({ user }: { user: User | null }) => {
 const ChatHeader = ({ user }: { user: User | undefined }) => {
 
+
+console.log("-----------user------------\n", user?.user_metadata?.full_name);
 
   const router = useRouter();
 
   // github auth
   const handleLoginWithGithub = () => {
+
     const supabase = supabaseBrowser();
 
     supabase.auth.signInWithOAuth({
@@ -23,7 +27,7 @@ const ChatHeader = ({ user }: { user: User | undefined }) => {
       },
     });
 
-    console.log("user", user, "logged in");
+    console.log("user", user?.user_metadata?.full_name, "logged in");
   };
 
   // google auth
@@ -37,7 +41,7 @@ const ChatHeader = ({ user }: { user: User | undefined }) => {
       },
     });
 
-    console.log("user",user, "logged in");
+    console.log("user", user?.user_metadata?.full_name, "logged in");
   };
 
   // logout
@@ -46,7 +50,7 @@ const ChatHeader = ({ user }: { user: User | undefined }) => {
     const supabase = supabaseBrowser();
     await supabase.auth.signOut();
 
-    console.log("user",user, "logged out");
+    console.log("user", user?.user_metadata?.full_name, "logged out");
     router.refresh();
   };
 
