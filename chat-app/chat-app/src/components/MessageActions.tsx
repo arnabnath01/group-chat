@@ -16,13 +16,18 @@ import { useMessage } from "@/lib/store/messages";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { toast } from "sonner";
 
+
+
 export function DeleteAlert() {
   const actionMessage = useMessage((state) => state.actionMessage);
 
+
+  // optimising the delete of msgs
   const optimisticDeleteMessage = useMessage(
     (state) => state.optimisticDeleteMessage
   );
 
+  // deletes msgs form supabase record
   const handleDeleteMessage = async () => {
     const supabase = supabaseBrowser();
 
