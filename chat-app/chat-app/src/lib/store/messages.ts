@@ -1,9 +1,7 @@
-
-
 import { create } from "zustand";
 import Message from '../../components/Message';
 
-//first we r defining how the message should look like
+// Define the structure of a message
 export type Imessage = {
   created_at: string;
   id: string;
@@ -18,42 +16,54 @@ export type Imessage = {
   } | null;
 };
 
-
- // then here we are sying that the messages should be a array of Imessage
+// Define the state structure for messages
 interface messageState {
-  messages: Imessage[];
-  actionMessage : Imessage | undefined; // acting some sort of actions(edit/delete)
-  addMessage: (message:Imessage) => void;
-  setActionMessage:(message:Imessage)=>void;
+  messages: Imessage[]; // Array of messages
+  actionMessage : Imessage | undefined; // Message that is currently being acted upon (edit/delete)
+  addMessage: (message:Imessage) => void; // Function to add a message
+  setActionMessage:(message:Imessage)=>void; // Function to set the action message
 
-  optimisticDeleteMessage:(messageId: string)=>void;
+  optimisticDeleteMessage:(messageId: string)=>void; // Function to delete a message optimistically
+  optimisticEditMessage:(message:Imessage)=>void; // Function to edit a message optimistically
 }
 
+// Create a Zustand store for messages
 export const useMessage = create<messageState>()((set) => ({
-    messages: [],
-    actionMessage:undefined,
-    addMessage:(message)=>{
-        set((state)=>({
-          // adding the new message to the existing messages
-            messages:[...state.messages,message]
-        }))
-    },
-    setActionMessage:(message)=>{
-      set((state)=>({
-        actionMessage: message
-      }))
-    },
+  messages: [], // Initial state for messages
+  actionMessage: undefined, // Initial state for action message
+  addMessage: (message) => {
+    set((state) => ({
+      // Add a new message to the existing messages
+      messages: [...state.messages, message],
+    }));
+  },
+  setActionMessage: (message) => {
+    set((state) => ({
+      // Set the action message
+      actionMessage: message,
+    }));
+  },
 
-    optimisticDeleteMessage:(messageId)=>
-      set((state)=>{
-        return {
-          messages: state.messages.filter(
-            (message) => message.id !== messageId
-          )
-        };
-      })
+  optimisticDeleteMessage: (messageId) =>
+    set((state) => {
+      // Delete a message from the messages array by filtering it out
+      return {
+        messages: state.messages.filter((message) => message.id !== messageId),
+      };
+    }),
 
+  optimisticEditMessage: (updateMessage) =>
+    set((state) => {
+      // Edit a message in the messages array by finding it by id and updating its text and is_edit properties
+      return {
+        messages: state.messages.filter(
+          (message) =>{
+            if (message.id === updateMessage.id) {
+              message.text = updateMessage.text;
+              message.is_edit = true;
+            }
+            return message;
+        }),
+      };
+    }),
 }));
-
-
-

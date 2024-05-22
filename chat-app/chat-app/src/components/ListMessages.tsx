@@ -2,7 +2,7 @@
 import { Imessage, useMessage } from "@/lib/store/messages";
 import { useEffect, useRef } from "react";
 import Message from './Message';
-import {DeleteAlert} from "./MessageActions";
+import {DeleteAlert, EditAlert} from "./MessageActions";
 
 export default function ListMessages() {
   const { messages } = useMessage((state) => state);
@@ -18,6 +18,8 @@ export default function ListMessages() {
         </div>
       </div>
       <DeleteAlert />
+      <EditAlert/>
+      
     </>
   );
 }
